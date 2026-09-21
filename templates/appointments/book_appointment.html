@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Appointment - Piki Ora</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #1769aa;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            color: #1769aa;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #1769aa;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #12558a;
+        }
+
+        .error {
+            color: #b91c1c;
+            background: #fee2e2;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #1769aa;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>Piki Ora Medical Centre</h2>
+
+    <div>
+        <a href="/">Dashboard</a>
+        <a href="{% url 'my_appointments' %}">My Appointments</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Book an Appointment</h1>
+
+        <p>Select an available doctor and appointment time.</p>
+
+        {% if form.non_field_errors %}
+            <div class="error">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label>
+                {{ form.slot.label }}
+            </label>
+
+            {{ form.slot }}
+
+            {% for error in form.slot.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+
+            <label>
+                {{ form.reason.label }}
+            </label>
+
+            {{ form.reason }}
+
+            {% for error in form.reason.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+
+            <button type="submit">
+                Confirm Appointment
+            </button>
+
+        </form>
+
+        <a class="back" href="/">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

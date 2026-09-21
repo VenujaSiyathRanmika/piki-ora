@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Appointments - Piki Ora</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #1769aa;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #1769aa;
+        }
+
+        .message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 14px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+        }
+
+        .appointment {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .appointment h2 {
+            margin-top: 0;
+        }
+
+        .confirmed {
+            color: #166534;
+            font-weight: bold;
+        }
+
+        .cancelled {
+            color: #b91c1c;
+            font-weight: bold;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-right: 8px;
+            margin-top: 10px;
+        }
+
+        .edit {
+            background: #1769aa;
+            color: white;
+        }
+
+        .cancel {
+            background: #dc2626;
+            color: white;
+        }
+
+        .book {
+            background: #1769aa;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 7px;
+            text-decoration: none;
+        }
+
+        .empty {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>Piki Ora Medical Centre</h2>
+
+    <div>
+        <a href="/">Dashboard</a>
+        <a href="{% url 'book_appointment' %}">Book Appointment</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h1>My Appointments</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if appointments %}
+
+        {% for appointment in appointments %}
+
+            <div class="appointment">
+
+                <h2>
+                    Dr. {{ appointment.slot.doctor.first_name }}
+                    {{ appointment.slot.doctor.last_name }}
+                </h2>
+
+                <p>
+                    <strong>Specialisation:</strong>
+                    {{ appointment.slot.doctor.specialisation }}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    {{ appointment.slot.date }}
+                </p>
+
+                <p>
+                    <strong>Time:</strong>
+                    {{ appointment.slot.start_time }}
+                    -
+                    {{ appointment.slot.end_time }}
+                </p>
+
+                <p>
+                    <strong>Reason:</strong>
+                    {{ appointment.reason }}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+
+                    {% if appointment.status == "confirmed" %}
+                        <span class="confirmed">Confirmed</span>
+                    {% else %}
+                        <span class="cancelled">Cancelled</span>
+                    {% endif %}
+                </p>
+
+                {% if appointment.status == "confirmed" %}
+
+                    <a
+                        class="button edit"
+                        href="{% url 'edit_appointment' appointment.id %}"
+                    >
+                        Edit
+                    </a>
+
+                    <a
+                        class="button cancel"
+                        href="{% url 'cancel_appointment' appointment.id %}"
+                    >
+                        Cancel
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty">
+
+            <h2>No appointments yet</h2>
+
+            <p>
+                You haven't booked any appointments.
+            </p>
+
+            <a class="book" href="{% url 'book_appointment' %}">
+                Book Your First Appointment
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

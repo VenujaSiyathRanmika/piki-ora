@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Appointment Slots | Piki Ora</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #1d4ed8;
+            color: white;
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+        }
+
+        .logout {
+            background: white;
+            color: #1d4ed8;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top-bar h2 {
+            margin: 0;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .primary {
+            background: #1d4ed8;
+            color: white;
+        }
+
+        .secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .primary:hover {
+            background: #1e40af;
+        }
+
+        .secondary:hover {
+            background: #d1d5db;
+        }
+
+        .message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 13px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f9fafb;
+            font-size: 14px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .action {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .edit {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .delete {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .available {
+            background: #dcfce7;
+            color: #166534;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .booked {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 700px) {
+            .header {
+                padding: 18px;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <div>
+        <h1>Piki Ora Medical Centre</h1>
+        <p>Administrator Dashboard</p>
+    </div>
+
+    <a href="{% url 'logout' %}" class="logout">
+        Logout
+    </a>
+
+</header>
+
+
+<main class="container">
+
+    <div class="top-bar">
+
+        <h2>Appointment Slots</h2>
+
+        <div class="buttons">
+
+            <a href="{% url 'admin_dashboard' %}" class="button secondary">
+                Dashboard
+            </a>
+
+            <a href="{% url 'admin_slot_add' %}" class="button primary">
+                + Create Slot
+            </a>
+
+        </div>
+
+    </div>
+
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="message">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <div class="table-container">
+
+        {% if slots %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Doctor</th>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for slot in slots %}
+
+                        <tr>
+
+                            <td>
+                                Dr.
+                                {{ slot.doctor.first_name }}
+                                {{ slot.doctor.last_name }}
+                            </td>
+
+                            <td>
+                                {{ slot.date }}
+                            </td>
+
+                            <td>
+                                {{ slot.start_time }}
+                            </td>
+
+                            <td>
+                                {{ slot.end_time }}
+                            </td>
+
+                            <td>
+
+                                {% if slot.appointments.all %}
+
+                                    {% for appointment in slot.appointments.all %}
+
+                                        {% if appointment.status == "confirmed" %}
+
+                                            <span class="booked">
+                                                Booked
+                                            </span>
+
+                                        {% endif %}
+
+                                    {% empty %}
+
+                                        <span class="available">
+                                            Available
+                                        </span>
+
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <span class="available">
+                                        Available
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <a
+                                    href="{% url 'admin_slot_edit' slot.id %}"
+                                    class="action edit"
+                                >
+                                    Edit
+                                </a>
+
+                                <a
+                                    href="{% url 'admin_slot_delete' slot.id %}"
+                                    class="action delete"
+                                >
+                                    Delete
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        {% else %}
+
+            <div class="empty">
+                No appointment slots have been created yet.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</main>
+
+</body>
+</html>

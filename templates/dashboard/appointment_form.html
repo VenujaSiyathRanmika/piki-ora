@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Appointment | Piki Ora</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #1d4ed8;
+            color: white;
+            padding: 20px 35px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .header p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .patient-info {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
+            font-family: Arial, sans-serif;
+            background: white;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #1d4ed8;
+        }
+
+        .error {
+            color: #b91c1c;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .non-field-error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button,
+        .button {
+            padding: 11px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 15px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        button {
+            background: #1d4ed8;
+            color: white;
+        }
+
+        button:hover {
+            background: #1e40af;
+        }
+
+        .cancel {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .cancel:hover {
+            background: #d1d5db;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <h1>Piki Ora Medical Centre</h1>
+
+    <p>Administrator Dashboard</p>
+
+</header>
+
+
+<main class="container">
+
+    <div class="card">
+
+        <h2>Edit Appointment</h2>
+
+        <div class="patient-info">
+
+            Patient:
+
+            <strong>
+                {{ appointment.patient.user.first_name }}
+                {{ appointment.patient.user.last_name }}
+            </strong>
+
+        </div>
+
+
+        {% if form.non_field_errors %}
+
+            <div class="non-field-error">
+
+                {% for error in form.non_field_errors %}
+
+                    {{ error }}
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="form-group">
+
+                <label for="{{ form.slot.id_for_label }}">
+                    Appointment Slot
+                </label>
+
+                {{ form.slot }}
+
+                {% for error in form.slot.errors %}
+
+                    <div class="error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="{{ form.reason.id_for_label }}">
+                    Reason
+                </label>
+
+                {{ form.reason }}
+
+                {% for error in form.reason.errors %}
+
+                    <div class="error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="{{ form.status.id_for_label }}">
+                    Status
+                </label>
+
+                {{ form.status }}
+
+                {% for error in form.status.errors %}
+
+                    <div class="error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button type="submit">
+                    Save Changes
+                </button>
+
+                <a
+                    href="{% url 'admin_appointments' %}"
+                    class="button cancel"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+</body>
+</html>

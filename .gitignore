@@ -16,3 +16,6 @@ db.sqlite3
 
 staticfiles/
 media/
+
+production_data.json
+production_data.b64

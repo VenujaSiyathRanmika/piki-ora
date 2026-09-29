@@ -1,10 +1,12 @@
 from django import forms
+from django.db import models
 from django.utils import timezone
 
 from .models import Appointment, AppointmentSlot
 
 
 class AppointmentForm(forms.ModelForm):
+
     class Meta:
         model = Appointment
         fields = ["slot", "reason"]
@@ -31,34 +33,25 @@ class AppointmentForm(forms.ModelForm):
 
         today = timezone.localdate()
 
-        available_slots = AppointmentSlot.objects.filter(
-            date__gte=today
-        ).exclude(
-            appointments__status="confirmed"
-        ).select_related(
-            "doctor"
-        ).order_by(
-            "date",
-            "start_time"
+        # Available slots for a new appointment
+        available_slots = (
+            AppointmentSlot.objects
+            .filter(date__gte=today)
+            .exclude(appointments__status="confirmed")
+            .select_related("doctor")
+            .order_by("date", "start_time")
         )
 
         # When editing an existing appointment,
         # allow the patient to keep their current slot.
         if appointment:
             available_slots = (
-                AppointmentSlot.objects.filter(
-                    date__gte=today
-                )
+                AppointmentSlot.objects
+                .filter(date__gte=today)
                 .filter(
-                    models.Q(
-                        appointments__status__isnull=True
-                    )
-                    | models.Q(
-                        appointments__status="cancelled"
-                    )
-                    | models.Q(
-                        id=appointment.slot_id
-                    )
+                    models.Q(appointments__status__isnull=True)
+                    | models.Q(appointments__status="cancelled")
+                    | models.Q(id=appointment.slot_id)
                 )
                 .select_related("doctor")
                 .distinct()

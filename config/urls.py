@@ -1,3 +1,4 @@
+
 from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import include, path
@@ -13,16 +14,15 @@ urlpatterns = [
     path("", home_view, name="home"),
     path("admin/", admin.site.urls),
 
-    # Existing website routes
+    # Existing Assignment 1 website routes
     path("accounts/", include("accounts.urls")),
     path("appointments/", include("appointments.urls")),
     path("dashboard/", include("dashboard.urls")),
     path("doctors/", include("doctors.urls")),
 
-    # Existing patient API routes
+    # Assignment 2 API routes
+    path("api/doctors/", include("doctors.urls")),
     path("api/appointments/", include("appointments.api_urls")),
     path("api/accounts/", include("accounts.api_urls")),
-
-    # Admin dashboard API routes
     path("api/admin/", include("appointments.admin_api_urls")),
 ]

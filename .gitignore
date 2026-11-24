@@ -19,3 +19,11 @@ media/
 
 production_data.json
 production_data.b64
+# Temporary frontend backups
+frontend/src/*.backup
+frontend/src/*.backup2
+frontend/src/*.before-admin
+
+# Local data backups
+backups/
+config/urls.py.backup

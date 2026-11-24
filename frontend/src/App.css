@@ -1,0 +1,416 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f3f5fc;
+  color: #24324b;
+}
+
+.app {
+  min-height: 100vh;
+  background: #f3f5fc;
+}
+
+.header {
+  background: #2854d9;
+  color: white;
+  text-align: center;
+  padding: 24px 16px;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  color: white;
+}
+
+.header p {
+  margin: 0;
+  color: white;
+}
+
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 24px 48px;
+}
+
+/* Login card */
+.login-container {
+  display: block !important;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto 36px;
+  padding: 28px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(30, 60, 120, 0.08);
+}
+
+.login-container h2 {
+  color: #24324b !important;
+  text-align: center;
+  font-size: 24px;
+  margin: 0 0 10px;
+}
+
+.login-container > p {
+  text-align: center;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.login-container form {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+  width: 100%;
+}
+
+.login-container label {
+  display: block;
+  color: #24324b !important;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.login-container input {
+  display: block;
+  width: 100% !important;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  background: #fff;
+  color: #24324b;
+  font-size: 15px;
+}
+
+.login-container button,
+.login-status button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background: #2854d9;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-container button:hover,
+.login-status button:hover {
+  background: #1d43b5;
+}
+
+.login-container button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.error {
+  color: #dc2626 !important;
+  font-size: 14px;
+}
+
+/* Welcome section */
+.hero {
+  text-align: center;
+  margin: 0 auto 32px;
+}
+
+.hero > p:first-child {
+  color: #2854d9;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.hero h2,
+.section-heading h2 {
+  color: #24324b !important;
+  font-size: 26px;
+  margin: 12px 0;
+}
+
+.hero > p:last-child,
+.section-heading > p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* Doctor section */
+.section-heading {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.doctor-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.doctor-card {
+  min-width: 0;
+  padding: 26px 20px;
+  background: white;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(30, 60, 120, 0.06);
+}
+
+.doctor-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: #e8eeff;
+  color: #2854d9;
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.doctor-specialisation {
+  color: #2854d9;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.doctor-card h3 {
+  color: #24324b;
+  font-size: 18px;
+}
+
+.doctor-card > p {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.doctor-contact {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.doctor-contact p {
+  overflow-wrap: anywhere;
+}
+
+.doctor-contact a {
+  color: #2854d9;
+}
+
+.login-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 14px 18px;
+  background: white;
+  border-radius: 10px;
+}
+
+.login-status p {
+  color: #24324b;
+}
+
+.login-status button {
+  width: auto;
+  margin: 0;
+}
+
+@media (max-width: 800px) {
+  .doctor-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 550px) {
+  .main {
+    padding: 20px 14px 36px;
+  }
+
+  .header h1 {
+    font-size: 23px;
+  }
+
+  .login-container {
+    padding: 22px;
+  }
+
+  .doctor-list {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h2,
+  .section-heading h2 {
+    font-size: 22px;
+  }
+}
+
+/* Appointment booking and patient dashboard */
+.booking-section,
+.my-appointments {
+  margin: 0 auto 32px;
+  padding: 26px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(30, 60, 120, 0.06);
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.booking-form label {
+  color: #24324b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.booking-form select,
+.booking-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #24324b;
+  font: inherit;
+}
+
+.booking-form button {
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 7px;
+  background: #2854d9;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.booking-form button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.app-message,
+.empty-state {
+  margin: 0 auto 20px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  line-height: 1.5;
+}
+
+.success-message {
+  background: #e8f8ee;
+  color: #166534;
+}
+
+.error-message {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.empty-state {
+  background: #f3f5fc;
+  color: #64748b;
+  text-align: center;
+}
+
+.appointment-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.appointment-card {
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.appointment-card h3 {
+  margin: 0;
+  color: #24324b;
+  font-size: 17px;
+}
+
+.appointment-card p {
+  color: #475569;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.appointment-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.appointment-status {
+  padding: 4px 8px;
+  border-radius: 20px;
+  background: #e8eeff;
+  color: #2854d9;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.appointment-status.cancelled {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.cancel-button {
+  padding: 9px 12px;
+  border: 1px solid #dc2626;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #dc2626;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background: #fef2f2;
+}
+
+.cancel-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.login-status p {
+  margin: 6px 0 0;
+  color: #64748b;
+}
+
+@media (max-width: 550px) {
+  .booking-section,
+  .my-appointments {
+    padding: 18px;
+  }
+
+  .appointment-card-top {
+    flex-direction: column;
+  }
+}

@@ -7,7 +7,7 @@ import api from "./api";
 import "./App.css";
 
 const API = {
-  doctors: "/doctors/api/",
+  doctors: "/api/doctors/",
   login: "/api/accounts/login/",
   adminLogin: "/api/accounts/admin-login/",
   slots: "/api/appointments/slots/",

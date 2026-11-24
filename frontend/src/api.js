@@ -1,3 +1,4 @@
+
 import axios from "axios";
 
 const api = axios.create({
@@ -16,11 +17,18 @@ api.interceptors.response.use((response) => {
   return response;
 });
 
-api.interceptors.request.use((config) => {
+api.interceptors.request.use(async (config) => {
   const method = config.method?.toLowerCase();
+  const needsCsrf = ["post", "put", "patch", "delete"].includes(method);
 
-  if (csrfToken && ["post", "put", "patch", "delete"].includes(method)) {
-    config.headers.set("X-CSRFToken", csrfToken);
+  if (needsCsrf && !config.url?.includes("/api/accounts/csrf/")) {
+    if (!csrfToken) {
+      await api.get("/api/accounts/csrf/");
+    }
+
+    if (csrfToken) {
+      config.headers.set("X-CSRFToken", csrfToken);
+    }
   }
 
   return config;

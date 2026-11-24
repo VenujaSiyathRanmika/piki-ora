@@ -1,3 +1,5 @@
+
+cat > src/api.js <<'EOF'
 import axios from "axios";
 
 const api = axios.create({
@@ -13,7 +15,6 @@ api.interceptors.response.use((response) => {
   if (response.config.url?.includes("/api/accounts/csrf/")) {
     csrfToken = response.data.csrfToken;
   }
-
   return response;
 });
 
@@ -28,3 +29,4 @@ api.interceptors.request.use((config) => {
 });
 
 export default api;
+EOF

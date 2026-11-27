@@ -1,0 +1,151 @@
+
+body {
+  margin: 0;
+  background: #eef6f7;
+  color: #183047;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+#root {
+  width: 100%;
+}
+
+h1 {
+  background: #087e8b;
+  color: white;
+  text-align: center;
+  padding: 25px;
+  margin: 0;
+}
+
+h2 {
+  color: #087e8b;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 15px;
+  background: white;
+}
+
+.navigation button,
+.navigation a {
+  background: #087e8b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 16px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.doctor {
+  background: white;
+  padding: 20px;
+  margin: 15px auto;
+  width: 90%;
+  max-width: 800px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.doctor h3 {
+  color: #087e8b;
+}
+
+p {
+  line-height: 1.5;
+}
+
+.booking-form,
+.login-form {
+  background: white;
+  max-width: 600px;
+  width: 90%;
+  margin: 20px auto 40px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.login-form {
+  max-width: 420px;
+}
+
+.booking-form label,
+.login-form label {
+  display: block;
+  margin: 15px 0 8px;
+  text-align: left;
+}
+
+.booking-form select,
+.booking-form textarea,
+.login-form input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font: inherit;
+  background: white;
+  color: #183047;
+}
+
+.booking-form textarea {
+  min-height: 100px;
+}
+
+.booking-form button,
+.login-form form button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: #087e8b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.back-button {
+  display: block;
+  margin: 15px auto 0;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  color: #087e8b;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  .navigation {
+    gap: 6px;
+  }
+
+  .navigation button,
+  .navigation a {
+    font-size: 14px;
+    padding: 9px;
+  }
+
+  .doctor {
+    width: 90%;
+  }
+}

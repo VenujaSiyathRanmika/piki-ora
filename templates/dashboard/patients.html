@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,6 +70,8 @@
             border-radius: 6px;
             text-decoration: none;
             font-weight: bold;
+            border: none;
+            cursor: pointer;
         }
 
         .secondary {
@@ -143,6 +146,19 @@
             text-decoration: none;
             font-size: 13px;
             font-weight: bold;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .edit {
+            background: #dbeafe;
+            color: #1d4ed8;
+            margin-bottom: 8px;
+        }
+
+        .edit:hover {
+            background: #bfdbfe;
         }
 
         .deactivate {
@@ -160,13 +176,16 @@
             padding: 40px;
             color: #6b7280;
         }
+
+        .action-form {
+            margin: 0;
+        }
     </style>
 </head>
 
 <body>
 
 <header class="header">
-
     <div>
         <h1>Piki Ora Medical Centre</h1>
         <p>Administrator Dashboard</p>
@@ -175,47 +194,32 @@
     <a href="{% url 'logout' %}" class="logout">
         Logout
     </a>
-
 </header>
-
 
 <main class="container">
 
     <div class="top-bar">
-
         <h2>Patients</h2>
 
-        <a
-            href="{% url 'admin_dashboard' %}"
-            class="button secondary"
-        >
+        <a href="{% url 'admin_dashboard' %}" class="button secondary">
             Dashboard
         </a>
-
     </div>
 
-
     {% if messages %}
-
         {% for message in messages %}
-
             <div class="message">
                 {{ message }}
             </div>
-
         {% endfor %}
-
     {% endif %}
-
 
     <div class="table-container">
 
         {% if patients %}
 
             <table>
-
                 <thead>
-
                     <tr>
                         <th>Patient</th>
                         <th>Email</th>
@@ -223,17 +227,13 @@
                         <th>Date of Birth</th>
                         <th>Address</th>
                         <th>Account Status</th>
-                        <th>Action</th>
+                        <th>Actions</th>
                     </tr>
-
                 </thead>
 
                 <tbody>
-
                     {% for patient in patients %}
-
                         <tr>
-
                             <td>
                                 <strong>
                                     {{ patient.user.first_name }}
@@ -241,91 +241,70 @@
                                 </strong>
                             </td>
 
-                            <td>
-                                {{ patient.user.email }}
-                            </td>
+                            <td>{{ patient.user.email }}</td>
+
+                            <td>{{ patient.phone }}</td>
+
+                            <td>{{ patient.date_of_birth }}</td>
+
+                            <td>{{ patient.address }}</td>
 
                             <td>
-                                {{ patient.phone }}
-                            </td>
-
-                            <td>
-                                {{ patient.date_of_birth }}
-                            </td>
-
-                            <td>
-                                {{ patient.address }}
-                            </td>
-
-                            <td>
-
                                 {% if patient.user.is_active %}
-
                                     <span class="status active">
                                         Active
                                     </span>
-
                                 {% else %}
-
                                     <span class="status inactive">
                                         Inactive
                                     </span>
-
                                 {% endif %}
-
                             </td>
 
                             <td>
+                                <a
+                                    href="{% url 'patient_edit' patient.id %}"
+                                    class="action edit"
+                                >
+                                    Edit
+                                </a>
 
                                 <form
                                     method="POST"
                                     action="{% url 'admin_patient_toggle' patient.id %}"
+                                    class="action-form"
                                 >
-
                                     {% csrf_token %}
 
                                     {% if patient.user.is_active %}
-
                                         <button
                                             type="submit"
                                             class="action deactivate"
                                         >
                                             Deactivate
                                         </button>
-
                                     {% else %}
-
                                         <button
                                             type="submit"
                                             class="action activate"
                                         >
                                             Activate
                                         </button>
-
                                     {% endif %}
-
                                 </form>
-
                             </td>
-
                         </tr>
-
                     {% endfor %}
-
                 </tbody>
-
             </table>
 
         {% else %}
-
             <div class="empty">
                 No patients have registered yet.
             </div>
-
         {% endif %}
 
     </div>
-
 </main>
 
 </body>

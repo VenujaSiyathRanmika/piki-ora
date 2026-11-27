@@ -399,3 +399,52 @@ def patient_toggle_status(request, patient_id):
             )
 
     return redirect("admin_patients")
+@staff_required
+def patient_edit(request, patient_id):
+    patient = get_object_or_404(Patient, id=patient_id)
+    user = patient.user
+
+    if request.method == "POST":
+        user.first_name = request.POST.get("first_name", "").strip()
+        user.last_name = request.POST.get("last_name", "").strip()
+        user.email = request.POST.get("email", "").strip()
+        patient.phone = request.POST.get("phone", "").strip()
+        patient.date_of_birth = request.POST.get("date_of_birth")
+        patient.address = request.POST.get("address", "").strip()
+
+        user.save()
+        patient.save()
+
+        messages.success(request, "Patient updated successfully.")
+        return redirect("admin_patients")
+
+    return render(
+        request,
+        "dashboard/patient_form.html",
+        {"patient": patient},
+    )
+@staff_required
+def patient_edit(request, patient_id):
+    patient = get_object_or_404(Patient, id=patient_id)
+    user = patient.user
+
+    if request.method == "POST":
+        user.first_name = request.POST.get("first_name", "").strip()
+        user.last_name = request.POST.get("last_name", "").strip()
+        user.email = request.POST.get("email", "").strip()
+
+        patient.phone = request.POST.get("phone", "").strip()
+        patient.date_of_birth = request.POST.get("date_of_birth")
+        patient.address = request.POST.get("address", "").strip()
+
+        user.save()
+        patient.save()
+
+        messages.success(request, "Patient updated successfully.")
+        return redirect("admin_patients")
+
+    return render(
+        request,
+        "dashboard/patient_form.html",
+        {"patient": patient}
+    )

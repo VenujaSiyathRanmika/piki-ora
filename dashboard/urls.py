@@ -2,6 +2,7 @@ from django.urls import path
 
 from . import admin_views
 from . import views
+from . import admin_views
 
 
 urlpatterns = [
@@ -94,4 +95,10 @@ urlpatterns = [
         admin_views.patient_toggle_status,
         name="admin_patient_toggle",
     ),
+
+    path(
+    "patients/<int:patient_id>/edit/",
+    admin_views.patient_edit,
+    name="patient_edit",
+),
 ]

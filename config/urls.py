@@ -37,4 +37,11 @@ urlpatterns = [
         "dashboard/",
         include("dashboard.urls"),
     ),
+
+        path("api/doctors/", 
+        include("doctors.api_urls")
+    ),
+
+    path("", 
+    include("doctors.urls")),
 ]

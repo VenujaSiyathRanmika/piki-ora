@@ -20,10 +20,12 @@ DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 
 ALLOWED_HOSTS = [
-    "piki-ora.onrender.com",
-    "piki-ora-test.onrender.com",
-    "localhost",
-    "127.0.0.1",
+    host.strip()
+    for host in os.environ.get(
+        "ALLOWED_HOSTS",
+        "piki-ora.onrender.com,piki-ora-test.onrender.com,localhost,127.0.0.1"
+    ).split(",")
+    if host.strip()
 ]
 
 

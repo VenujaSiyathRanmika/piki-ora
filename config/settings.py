@@ -1,4 +1,3 @@
-
 import os
 from pathlib import Path
 
@@ -8,39 +7,47 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Security settings
-
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
-
-if not SECRET_KEY:
-    raise ValueError("DJANGO_SECRET_KEY must be set")
-
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-change-this-for-local-development",
 )
 
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
-
 
 ALLOWED_HOSTS = [
     host.strip()
     for host in os.environ.get(
         "ALLOWED_HOSTS",
-        "piki-ora.onrender.com,piki-ora-test.onrender.com,localhost,127.0.0.1"
+        "piki-ora-1.onrender.com,piki-ora.onrender.com,"
+        "piki-ora-test.onrender.com,localhost,127.0.0.1",
     ).split(",")
     if host.strip()
 ]
 
 
 # CSRF settings
-
 CSRF_TRUSTED_ORIGINS = [
-    "https://piki-ora.onrender.com",
-    "https://piki-ora-test.onrender.com",
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
+    origin.strip()
+    for origin in os.environ.get(
+        "CSRF_TRUSTED_ORIGINS",
+        "https://piki-ora-1.onrender.com,"
+        "https://piki-ora.onrender.com,"
+        "https://piki-ora-test.onrender.com,"
+        "http://localhost:5173,"
+        "http://127.0.0.1:5173",
+    ).split(",")
+    if origin.strip()
 ]
 
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SAMESITE = "Lax"
 SESSION_COOKIE_SAMESITE = "Lax"
+
+# HTTPS settings for production
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 # Installed applications
@@ -63,6 +70,7 @@ INSTALLED_APPS = [
 # Middleware
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -75,8 +83,14 @@ MIDDLEWARE = [
 
 # React frontend settings
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
+    origin.strip()
+    for origin in os.environ.get(
+        "CORS_ALLOWED_ORIGINS",
+        "http://localhost:5173,"
+        "http://127.0.0.1:5173,"
+        "https://piki-ora-frontend.onrender.com",
+    ).split(",")
+    if origin.strip()
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -122,6 +136,7 @@ DATABASES = {
     "default": dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
+        conn_health_checks=True,
     )
 }
 
@@ -166,6 +181,17 @@ USE_TZ = True
 # Static files
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
+    },
+}
 
 
 # Email settings

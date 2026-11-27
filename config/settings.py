@@ -8,23 +8,30 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Security settings
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-nsrrl2##$lpd41ol1)m-%*r)cpwd3&f8^=jb8wrae*bu^784q#",
+
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+
+if not SECRET_KEY:
+    raise ValueError("DJANGO_SECRET_KEY must be set")
+
 )
 
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
+
 ALLOWED_HOSTS = [
     "piki-ora.onrender.com",
+    "piki-ora-test.onrender.com",
     "localhost",
     "127.0.0.1",
 ]
 
 
 # CSRF settings
+
 CSRF_TRUSTED_ORIGINS = [
     "https://piki-ora.onrender.com",
+    "https://piki-ora-test.onrender.com",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
